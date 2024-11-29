@@ -3,15 +3,13 @@
 ## Kellen Anderson
 ## Gracie Gorka
 
----
 
 # Compilation and Running the Simulation
 
-First, ensure that you have Python installed on your machine.  
+Ensure that you have Python installed on your machine.  
 You can download Python 3.12 at this link:  
-[Download Python 3.12](https://www.python.org/downloads/release/python-3120/)
+https://www.python.org/downloads/release/python-3120/
 
----
 
 ## Running in Visual Studio Code
 
@@ -19,7 +17,6 @@ You can download Python 3.12 at this link:
 2. Open the `tomasulo_simulation.py` file.
 3. Click "Run" in the "Run and Debug" tab or press `F5` and select **Python Debugger - Python File**.
 
----
 
 ## Running from Command Line
 
@@ -27,7 +24,7 @@ You can download Python 3.12 at this link:
 2. Navigate to the `TomasuloSimulation` folder using the `cd` command.
 3. Run the following command:
 
-   ```bash
+   ```
    python tomasulo_simulation.py
 
 
