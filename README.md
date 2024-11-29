@@ -1,11 +1,18 @@
+# Project Members:
+## Kellen Anderson
+## Gracie Gorka
 
-
-
-
-
-
-
-
+# Compilation and Running the Simulation
+First make sure you have python installed on your machine such as https://www.python.org/downloads/release/python-3120/ 
+## In Visual Studio Code
+Open TomasuloSimulation folder
+Open tomasulo_simulation.py
+Click run in the "Run and Debug" tab or press F5 and select Python Debugger - Python File
+## In command line
+Open cmd
+Navigate to TomasuloSimulation folder
+run the following command:
+python tomasulo_simulation.py
 
 
 # Project Instructions
