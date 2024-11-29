@@ -1,1 +1,12 @@
-store the input for the simulation here
+2
+7
+0 2 4 6
+2 4 3 5
+3
+4
+6
+21
+3
+4
+9
+0
