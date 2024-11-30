@@ -6,6 +6,17 @@ class InstructionRecord:
         self.source1 = source1
         self.source2 = source2
 
+class ReservationStation:
+    def __init__(self, name):
+        self.name = name
+        self.busy = False
+        self.op = None
+        self.vj = None
+        self.vk = None
+        self.qj = None
+        self.qk = None
+        self.dispatched = False
+        self.time_remaining = 0
 
 # Configuration
 ADD_TIME = 2
@@ -13,6 +24,8 @@ SUB_TIME = 2
 MUL_TIME = 10
 DIV_TIME = 40
 
+ADD_SUB_OPCODES = {0, 1}  
+MUL_DIV_OPCODES = {2, 3} 
 
 # Make the logic for the simulation
 # Initialize each instruction record and put them in the queue
