@@ -24,7 +24,18 @@ def main():
     RAT = [None] * 8
     num_instructions, num_cycles, instruction_queue, RF = read_text_file()
     for instruction in instruction_queue:
-        pass  # start simulator logic with issuing
+        cur_opcode = instruction.opcode
+        # might want to check for dispatch and/or broadcast first since we can't issue and dispatch in the same cycle
+        if cur_opcode in (1,2):
+            for reservation_station in reservation_stations[0:3]:
+                if reservation_station == None:
+                    reservation_station = instruction
+                    break
+        else:
+            for reservation_station in reservation_stations[3:5]:
+                if reservation_station == None:
+                    reservation_station = instruction
+                    break
 
 
 # Read in relevant data from the text file and use the data to populate variables, lists, etc to be used in the simulation
