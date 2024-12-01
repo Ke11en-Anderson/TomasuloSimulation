@@ -41,6 +41,7 @@ def main():
     for instruction in range(num_instructions):
         issue_instructions(instruction_queue, reservation_stations, RAT, RF)
         dispatch_instructions(reservation_stations)
+        broadcast_instructions(reservation_stations, RAT, RF)
 
 # Read in relevant data from the text file and use the data to populate variables, lists, etc to be used in the simulation
 def read_text_file():
@@ -76,7 +77,7 @@ def issue_instructions(instruction_queue, reservation_stations, RAT, RF):
     # Find an available reservation station
     rs = None
     for station in reservation_stations:
-        if not station.busy and (
+        if station.busy==False and (
             (instruction.opcode in ADD_SUB_OPCODES and "RS1" <= station.name <= "RS3")
             or (instruction.opcode in MUL_DIV_OPCODES and "RS4" <= station.name <= "RS5")):
             rs = station
@@ -109,6 +110,47 @@ def dispatch_instructions(reservation_stations):
                 else MUL_TIME if rs.op == 2 
                 else DIV_TIME
             )
+
+def broadcast_instructions(reservation_stations, RAT, RF):
+    #Loops through RS's
+    for rs in reservation_stations:
+        #If RS is taken, and dispatched and the runtime is still going
+        if rs.busy and rs.dispatched and rs.time_remaining >0:
+           #Deincrement time by 1
+            rs.time_remaining -=1
+            #If no time is remaining
+            if rs.time_remaining ==0:
+                #Do calculations based on the opcode
+                if rs.op == 0:
+                    result=rs.vj + rs.vk
+                elif rs.op == 1:
+                    result = rs.vj - rs.vk
+                elif rs.op == 2:
+                    result = rs.vj * rs.vk
+                elif rs.op == 3:
+                    result = rs.vj // rs.vk
+
+                # Update the RAT and RF after instruction completes execution
+                for reg, tag in enumerate(RAT):
+                    #RS is destination, update RF with results and clear RAT
+                    if tag == rs.name:
+                        RAT[reg] = None
+                        RF[reg] = result  
+
+                # Update other reservation stations waiting on this result
+                for other_rs in reservation_stations:
+                    #If other RS's are waiting on the result of the RS for the first operand 
+                    if other_rs.qj == rs.name:
+                        other_rs.vj = result
+                        other_rs.qj = None
+                    #If other RS's are waiting on the result of the RS for the second operand 
+                    if other_rs.qk == rs.name:
+                        other_rs.vk = result
+                        other_rs.qk = None
+                #RS is now available to be used again
+                rs.busy=False
+                rs.dispatched=False
+                
 
 # Create output file assuming we have all the data we need
 def output_simulation_result():
