@@ -6,7 +6,7 @@ class InstructionRecord:
         self.source1 = source1
         self.source2 = source2
 
-class ReservationStation:
+class IntegerUnits:
     def __init__(self, name):
         self.name = name
         self.busy = False
@@ -33,12 +33,13 @@ MUL_DIV_OPCODES = {2, 3}
 # Then issue, dispatch, broadcast etc.
 # Make sure we are keeping track of all the data we need for the output file
 def main():
-    reservation_stations = [None] * 5
+    add_sub_reservations = [IntegerUnits(f"RS{i + 1}") for i in range(3)] #Declare RS for add/sub
+    mul_div_reservations = [IntegerUnits(f"RS{i + 4}") for i in range(2)] #Declare RS for mul/div
+    reservation_stations = add_sub_reservations + mul_div_reservations
     RAT = [None] * 8
     num_instructions, num_cycles, instruction_queue, RF = read_text_file()
-    for instruction in instruction_queue:
-        pass  # start simulator logic with issuing
-
+    for cycle in num_cycles:
+        issue_instructions(instruction_queue, reservation_stations, RAT, RF)
 
 # Read in relevant data from the text file and use the data to populate variables, lists, etc to be used in the simulation
 def read_text_file():
@@ -65,6 +66,38 @@ def read_text_file():
             line_index += 1
     return num_instructions, num_cycles, instruction_queue, RF
 
+def issue_instructions(instruction_queue, reservation_stations, RAT, RF):
+    if not instruction_queue:
+        return
+    instruction = instruction_queue[0]
+    # Find an available reservation station
+    rs = None
+    for station in reservation_stations:
+        if not station.busy and (
+            (instruction.opcode in ADD_SUB_OPCODES and "RS1" <= station.name <= "RS3")
+            or (instruction.opcode in MUL_DIV_OPCODES and "RS4" <= station.name <= "RS5")
+        ):
+            rs = station
+            break
+    #If RS is found, update the rs
+    if rs:
+        rs.busy = True
+        rs.op = instruction.opcode
+        rs.vj, rs.qj = (
+            (RF[instruction.source1], None) if RAT[instruction.source1] is None 
+            else (None, RAT[instruction.source1])
+        )
+        rs.vk, rs.qk = (
+            (RF[instruction.source2], None) if RAT[instruction.source2] is None 
+            else (None, RAT[instruction.source2])
+        )
+        
+         # Update the RAT to point to the reservation station
+        RAT[instruction.destination] = rs.name
+
+        # Remove the instruction from the instruction queue
+        instruction_queue.pop(0)
+  
 
 # Create output file assuming we have all the data we need
 def output_simulation_result():
