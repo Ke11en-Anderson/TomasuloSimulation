@@ -64,7 +64,7 @@ def read_text_file():
     instruction_queue = []
     RF = []
     line_index = 0
-    with open("instruction_file.txt", "r") as file:
+    with open("instruction_file_2.txt", "r") as file:
         file_lines = file.readlines()
         num_instructions = int(file_lines[line_index])
         line_index += 1
@@ -175,11 +175,11 @@ def broadcast_instructions(reservation_stations, RAT, RF, execution_units):
                     result = rs.vj // rs.vk
 
                 # Update the RAT and RF after instruction completes execution
-                for reg, tag in enumerate(RAT):
+                for index, tag in enumerate(RAT):
                     # RS is destination, update RF with results and clear RAT
                     if tag == rs.name:
-                        RAT[reg] = None
-                        RF[reg] = result
+                        RAT[index] = None
+                        RF[index] = result
 
                 # Update other reservation stations waiting on this result
                 for other_rs in reservation_stations:
