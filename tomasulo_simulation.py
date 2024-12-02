@@ -1,4 +1,3 @@
-# Create a class which is something like 'InstructionRecord' with all of the relevant members such as opcode, source_reg, etc. and a basic constructor
 class InstructionRecord:
     def __init__(self, opcode, destination, source1, source2):
         self.opcode = opcode
@@ -33,11 +32,6 @@ ADD_SUB_OPCODES = {0, 1}
 MUL_DIV_OPCODES = {2, 3}
 
 
-# Make the logic for the simulation
-# Initialize each instruction record and put them in the queue
-# Initialize all containers that we need such as reservation stations and execution units (probably can just be lists)
-# Then issue, dispatch, broadcast etc.
-# Make sure we are keeping track of all the data we need for the output file
 def main():
     add_sub_reservations = [
         IntegerUnits(f"RS{i + 1}") for i in range(3)
@@ -50,8 +44,6 @@ def main():
     execution_units = [""] * (NUM_ADD_SUB_EUS + NUM_MUL_DIV_EUS)
     num_cycles, instruction_queue, RF = read_text_file()
     for _ in range(num_cycles):
-        # dispatch needs to come before issue and broadcast to prevent same cycle issue-dispatch and same cycle capture-dispatch
-        # dispatch then issue then broadcast?
         dispatch_instructions(reservation_stations, execution_units)
         issue_instructions(instruction_queue, reservation_stations, RAT, RF)
         broadcast_instructions(reservation_stations, RAT, RF, execution_units)
@@ -59,8 +51,6 @@ def main():
     print_results(reservation_stations, RAT, RF, instruction_queue)
     
 
-
-# Read in relevant data from the text file and use the data to populate variables, lists, etc to be used in the simulation
 def read_text_file():
     instruction_queue = []
     RF = []
