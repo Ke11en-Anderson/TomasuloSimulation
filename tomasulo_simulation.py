@@ -52,11 +52,12 @@ def main():
     for _ in range(num_cycles):
         # dispatch needs to come before issue and broadcast to prevent same cycle issue-dispatch and same cycle capture-dispatch
         # dispatch then issue then broadcast?
-        print(f"\nCycle {_ + 1}:")
         dispatch_instructions(reservation_stations, execution_units)
         issue_instructions(instruction_queue, reservation_stations, RAT, RF)
         broadcast_instructions(reservation_stations, RAT, RF, execution_units)
-        print_results(reservation_stations, RAT, RF, instruction_queue)
+    
+    print_results(reservation_stations, RAT, RF, instruction_queue)
+    
 
 
 # Read in relevant data from the text file and use the data to populate variables, lists, etc to be used in the simulation
@@ -64,7 +65,7 @@ def read_text_file():
     instruction_queue = []
     RF = []
     line_index = 0
-    with open("instruction_file_2.txt", "r") as file:
+    with open("instruction_file.txt", "r") as file:
         file_lines = file.readlines()
         num_instructions = int(file_lines[line_index])
         line_index += 1
@@ -213,8 +214,8 @@ def print_results(reservation_stations, RAT, RF, instruction_queue):
     for i, tag in enumerate(RAT):
         print(f"R{i}: {tag}")
 
+    print("\nInstruction Queue:")
     for instruction in instruction_queue:
-        print("\nInstruction Queue:")
         print(
             f"Opcode={instruction.opcode}, Dest={instruction.destination}, Src1={instruction.source1}, Src2={instruction.source2}"
         )
