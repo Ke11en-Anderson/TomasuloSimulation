@@ -52,6 +52,7 @@ def main():
     for _ in range(num_cycles):
         # dispatch needs to come before issue and broadcast to prevent same cycle issue-dispatch and same cycle capture-dispatch
         # dispatch then issue then broadcast?
+        print(f"\nCycle {_ + 1}:")
         dispatch_instructions(reservation_stations, execution_units)
         issue_instructions(instruction_queue, reservation_stations, RAT, RF)
         broadcast_instructions(reservation_stations, RAT, RF, execution_units)
@@ -148,9 +149,9 @@ def dispatch_instructions(reservation_stations, execution_units):
             execution_units[open_eu_index] = rs.name
             rs.dispatched = True
             rs.time_remaining = (
-                ADD_TIME
+                ADD_TIME + 1
                 if rs.op in ADD_SUB_OPCODES
-                else MUL_TIME if rs.op == 2 else DIV_TIME
+                else MUL_TIME +1 if rs.op == 2 else DIV_TIME +1
             )
 
 
