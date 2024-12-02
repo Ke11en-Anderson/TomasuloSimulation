@@ -55,6 +55,7 @@ def main():
         dispatch_instructions(reservation_stations, execution_units)
         issue_instructions(instruction_queue, reservation_stations, RAT, RF)
         broadcast_instructions(reservation_stations, RAT, RF, execution_units)
+        print_results(reservation_stations, RAT, RF, instruction_queue)
 
 
 # Read in relevant data from the text file and use the data to populate variables, lists, etc to be used in the simulation
@@ -196,6 +197,25 @@ def broadcast_instructions(reservation_stations, RAT, RF, execution_units):
                 index = execution_units.index(rs.name)
                 execution_units[index] = ''
 
+def print_results(reservation_stations, RAT, RF, instruction_queue):
+    print("\nReservation Stations:")
+    for rs in reservation_stations:
+        print(
+            f"{rs.name}: Busy={rs.busy}, Op={rs.op}, Vj={rs.vj}, Vk={rs.vk}, Qj={rs.qj}, Qk={rs.qk}, Dispatched={rs.dispatched}, TimeRemaining={rs.time_remaining}"
+        )
 
+    print("\nRegister File:")
+    for i, value in enumerate(RF):
+        print(f"R{i}: {value}")
+        
+    print("\nRAT:")
+    for i, tag in enumerate(RAT):
+        print(f"R{i}: {tag}")
+
+    for instruction in instruction_queue:
+        print("\nInstruction Queue:")
+        print(
+            f"Opcode={instruction.opcode}, Dest={instruction.destination}, Src1={instruction.source1}, Src2={instruction.source2}"
+        )
 if __name__ == "__main__":
     main()
