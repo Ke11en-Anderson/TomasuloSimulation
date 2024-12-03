@@ -1,7 +1,7 @@
 # Project Members
 
 ## Kellen Anderson
-## Gracie Gorka
+## Gracie Gorka (1358424)
 
 
 # Compilation and Running the Simulation
@@ -26,6 +26,16 @@ https://www.python.org/downloads/release/python-3120/
 
    ```
    python tomasulo_simulation.py
+
+## Changing Instuctions 
+
+If you want to change any of the operations, cycles or instructions, open the `instructions_file.txt` file.
+1. **Number of Instructions**: Change the first line of the text file to how many instructions you want the program to run.
+2. **Number of Cycles**: Change the first line of the text file to how many cycles you want the program to run.
+3. **Instructions**: Add in instructions that match the formatting located in the project instructions.
+4. **RF Initial Values**: Find which RF you want to change (R0-R7), change the value 
+
+Ctrl S to save, go back to tomasulo_simulation.py and run as usual.
 
 
 # Project Instructions
